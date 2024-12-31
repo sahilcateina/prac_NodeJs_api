@@ -1,0 +1,11 @@
+<div class="container mt-3">
+    <h2>User List</h2>
+    <div *ngIf="userData">
+      <p><strong>Name:</strong> {{ userData.Name }}</p>
+      <p><strong>Email ID:</strong> {{ userData.EmailId }}</p>
+    </div>
+    <div *ngIf="!userData">
+      <p>No user data available.</p>
+    </div>
+  </div>
+  
