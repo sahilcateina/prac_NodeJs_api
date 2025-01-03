@@ -1,112 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup,Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
 import { Router } from '@angular/router';
-
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent {
+export class UserComponent implements OnInit {
   userForm: FormGroup;
+  userList: { id: number; name: string; email: string }[] = [];
 
-  constructor(private fb: FormBuilder, private router: Router) {
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
+    // Initialize the form
     this.userForm = this.fb.group({
       Name: ['', Validators.required],
       EmailId: ['', [Validators.required, Validators.email]],
     });
   }
 
-  SubmitForm() {
+  ngOnInit(): void {
+    this.fetchUsers(); // Fetch users on component initialization
+  }
+
+  // Fetch users from the service
+  fetchUsers(): void {
+    this.userService.getUsers().subscribe(
+      (users) => {
+        this.userList = users;
+      },
+      (error) => {
+        console.error('Error fetching users:', error);
+      }
+    );
+  }
+
+  // Add a new user
+  addUser(): void {
     if (this.userForm.valid) {
-      const userData = this.userForm.value;
-      this.router.navigate(['/userlist'], { state: { data: userData } });
+      const userData = {
+        name: this.userForm.value.Name,
+        email: this.userForm.value.EmailId,
+      };
+
+      this.userService.addUser(userData).subscribe(
+        (newUser) => {
+          // Add the new user to the list
+          this.userList.push(newUser);
+
+          // Reset the form and validation state
+          this.userForm.reset();
+          this.userForm.markAsPristine();
+          this.userForm.markAsUntouched();
+
+          alert('User added successfully!');
+        },
+        
+      ),(error:any) => {
+          console.error('Error adding user:', error);
+          alert('Failed to add user. Please try again.');
+      };
+    } else {
+      alert('Please fill out the form correctly.');
     }
   }
 }
-
-
-// export class UserComponent implements OnInit {
-//   userForm: FormGroup;
-//   users: any[] = [];
-//   isEditMode: boolean = false;
-//   currentUserId: number | null = null;
-
-//   constructor(private fb: FormBuilder, private userService: UserService) {
-//     this.userForm = this.fb.group({
-//       Name: [''],
-//       EmailId: ['']
-//     });
-//   }
-
-//   ngOnInit(): void {
-//     this.getUsers();
-//   }
-
-//   // Fetch all users
-//   getUsers() {
-//     this.userService.getUsers().subscribe((data) => {
-//       this.users = data;
-//     });
-//   }
-
-//   // Handle form submission
-//   SubmitForm() {
-//     const formData = this.userForm.value;
-  
-//     if (this.isEditMode && this.currentUserId !== null) {
-//       // Update User
-//       this.userService.updateUser(this.currentUserId, {
-//         name: formData.Name,
-//         email: formData.EmailId
-//       }).subscribe(() => {
-//         this.resetForm();
-//         this.getUsers(); // Refresh the list
-//       });
-//     } else {
-//       // Create User
-//       this.userService.createUser({
-//         name: formData.Name,
-//         email: formData.EmailId
-//       }).subscribe(() => {
-//         this.resetForm();
-//         this.getUsers(); // Refresh the list
-//       });
-//     }
-//   }
-  
-  
-//   // Helper function to switch tabs
-//   switchToUserListTab() {
-//     const userListTab = document.querySelector('#profile-tab') as HTMLElement;
-//     if (userListTab) {
-//       userListTab.click();
-//     }
-//   }
-//   // Edit a user
-//   editUser(user: any) {
-//     this.isEditMode = true;
-//     this.currentUserId = user.id;
-//     this.userForm.setValue({
-//       Name: user.name,
-//       EmailId: user.email
-//     });
-//   }
-
-//   // Delete a user
-//   deleteUser(id: number) {
-//     this.userService.deleteUser(id).subscribe(() => {
-//       this.getUsers();
-//     });
-//   }
-
-//   // Reset form
-//   resetForm() {
-//     this.userForm.reset();
-//     this.isEditMode = false;
-//     this.currentUserId = null;
-//   }
-
-// }

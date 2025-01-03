@@ -10,23 +10,18 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  createUser(user: { name: string; email: string }): Observable<any> {
-    return this.http.post(this.apiUrl, user);
-  }
-
-  getUsers(): Observable<any[]> {
+   // Fetch all users
+   getUsers(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-
-
-  // Update User
-  updateUser(id: number, user: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, user);
+  // Add a new user
+  addUser(user: { name: string; email: string }): Observable<any> {
+    return this.http.post(this.apiUrl, user);
   }
 
-  // Delete User
+  // Delete a user
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }

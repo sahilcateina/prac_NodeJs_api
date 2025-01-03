@@ -1,49 +1,85 @@
 <!-- <div class="container mt-2">
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item" >
-      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Add User</button>
-    </li>
-    <li class="nav-item" >
-      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">User list</button>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+      <button
+        class="nav-link active"
+        id="home-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#home"
+        type="button"
+        role="tab"
+        aria-controls="home"
+        aria-selected="true">
+        Add User
+      </button>
     </li>
   </ul>
+
   <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
-        <form [formGroup] ="userForm" (ngSubmit)="SubmitForm()">
-
-         <div class="row mt-2 d-flex mt-2">
-            <div class="form-group col-md-6" >
-              <label for="formGroupExampleInput">Name :</label>
-              <input type="text" class="form-control" name="Name" formControlName="Name" id="formGroupExampleInput" placeholder="Enter Name">
-            </div>
-
-            <div class="form-group col-md-6 ">
-              <label for="formGroupExampleInput2">EmailId:</label>
-              <input type="text" class="form-control" name="EmailId" formControlName="EmailId" id="formGroupExampleInput2" placeholder="Enter Email Id">
-            </div>   
-
-            <div></div>
-
-        </div>
-
-        <div class="row mt-2 d-flex btns">
-            <div class="col">
-              <button type="submit" class="btn me-1 btn-primary">Add</button> 
-              <button type="reset" class="btn ms-1 btn-secondary">Reset</button>    
-            </div>
-          </div>
-          </form>
-
-    </div>
-    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">User list</div>
     
+    <div
+      class="tab-pane fade show active"
+      id="home"
+      role="tabpanel"
+      aria-labelledby="home-tab"
+    >
+      <form [formGroup]="userForm" (ngSubmit)="addUser()">
+        <div class="row mt-2 d-flex">
+          <div class="form-group col-md-6">
+            <label for="formGroupExampleInput">Name :</label>
+            <input
+              type="text"
+              class="form-control"
+              name="Name"
+              formControlName="Name"
+              id="formGroupExampleInput"
+              placeholder="Enter Name"
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="formGroupExampleInput2">EmailId:</label>
+            <input
+              type="email"
+              class="form-control"
+              name="EmailId"
+              formControlName="EmailId"
+              id="formGroupExampleInput2"
+              placeholder="Enter Email Id"
+            />
+          </div>
+        </div>
+        <div class="row mt-2 d-flex btns">
+          <div class="col">
+            <button type="submit" class="btn me-1 btn-primary" >Add</button>
+            <button type="reset" class="btn ms-1 btn-secondary">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
-</div>  -->
 
+  
+  <div class="mt-4">
+    <h3>User List</h3>
+    <div class="card" *ngIf="userList.length > 0; else noUsers">
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let user of userList">
+            <strong>Name:</strong> {{ user.Name }} <br />
+            <strong>Email:</strong> {{ user.EmailId }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <ng-template #noUsers>
+      <p class="text-muted">No users added yet.</p>
+    </ng-template>
+  </div>
+</div> -->
 
 
 <div class="container mt-2">
+  <!-- Tabs -->
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
       <button
@@ -59,20 +95,9 @@
         Add User
       </button>
     </li>
-    <li class="nav-item">
-      <button
-        class="nav-link"
-        id="profile-tab"
-        routerLink="/userlist"
-        type="button"
-        role="tab"
-        aria-controls="profile"
-        aria-selected="false"
-      >
-        User list
-      </button>
-    </li>
   </ul>
+
+  <!-- Tab Content -->
   <div class="tab-content" id="myTabContent">
     <div
       class="tab-pane fade show active"
@@ -80,24 +105,24 @@
       role="tabpanel"
       aria-labelledby="home-tab"
     >
-      <form [formGroup]="userForm" (ngSubmit)="SubmitForm()">
-        <div class="row mt-2 d-flex mt-2">
+      <form [formGroup]="userForm" (ngSubmit)="addUser()">
+        <!-- Form Fields -->
+        <div class="row mt-2 d-flex">
           <div class="form-group col-md-6">
             <label for="formGroupExampleInput">Name :</label>
             <input
               type="text"
               class="form-control"
-              name="Name"
+              name="Name" 
               formControlName="Name"
               id="formGroupExampleInput"
               placeholder="Enter Name"
             />
           </div>
-
           <div class="form-group col-md-6">
-            <label for="formGroupExampleInput2">EmailId:</label>
+            <label for="formGroupExampleInput2">Email Id:</label>
             <input
-              type="text"
+              type="email"
               class="form-control"
               name="EmailId"
               formControlName="EmailId"
@@ -106,7 +131,7 @@
             />
           </div>
         </div>
-
+        <!-- Buttons -->
         <div class="row mt-2 d-flex btns">
           <div class="col">
             <button type="submit" class="btn me-1 btn-primary">Add</button>
@@ -115,16 +140,27 @@
         </div>
       </form>
     </div>
-    <div
-      class="tab-pane fade"
-      id="profile"
-      role="tabpanel"
-      aria-labelledby="profile-tab"
-    >
-      User list
+  </div>
+
+  <!-- User List -->
+  <div class="mt-4">
+    <h3>User List</h3>
+    <div class="card" *ngIf="userList.length > 0; else noUsers">
+      <div class="card-body">
+        <ul class="list-group">
+          <li class="list-group-item" *ngFor="let user of userList">
+            <strong>Name:</strong> {{ user.name }} <br />
+            <strong>Email:</strong> {{ user.email }}
+          </li>
+        </ul>
+      </div>
     </div>
+    <ng-template #noUsers>
+      <p class="text-muted">No users added yet.</p>
+    </ng-template>
   </div>
 </div>
+
 
 
 
