@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class UserComponent implements OnInit {
   userForm: FormGroup;
   userList: { id: number; name: string; email: string }[] = [];
+  editingUser: { id: number; name: string; email: string } | null = null;
 
   constructor(private fb: FormBuilder, private userService: UserService, private router: Router) {
     // Initialize the form
@@ -65,4 +66,28 @@ export class UserComponent implements OnInit {
       alert('Please fill out the form correctly.');
     }
   }
+
+  editUser(user: { id: number; name: string; email: string }): void {
+    this.editingUser = user;
+    this.userForm.patchValue({
+      Name: user.name,
+      EmailId: user.email,
+    });
+  }
+
+  deleteUser(id: number): void {
+    if (confirm('Are you sure you want to delete this user?')) {
+      this.userService.deleteUser(id).subscribe(() => {
+          this.userList = this.userList.filter((user) => user.id !== id);
+          alert('User deleted successfully!');
+        },
+        (error) => {
+          console.error('Error deleting user:', error);
+          alert('Failed to delete user. Please try again.');
+        }
+      );
+    }
+  }
+
 }
+

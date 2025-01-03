@@ -20,6 +20,12 @@ export class UserService {
     return this.http.post(this.apiUrl, user);
   }
 
+   // Update a user
+  editUser(id: number, user: { name: string; email: string }): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, user);
+}
+
+
   // Delete a user
   deleteUser(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}/${id}`);
