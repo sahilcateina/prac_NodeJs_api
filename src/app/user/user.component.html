@@ -75,7 +75,7 @@
             <strong>Email:</strong> {{ user.email }}
           </div>
           <div>
-            <button class="btn btn-sm btn-warning me-2" (click)="editUser(user)">Edit</button>
+            <button class="btn btn-sm btn-warning me-2" [routerLink]="['/edit-user', user.id]">Edit</button>
             <button class="btn btn-sm btn-danger" (click)="deleteUser(user.id)">Delete</button>
           </div>
         </li>

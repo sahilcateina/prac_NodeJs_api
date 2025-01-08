@@ -68,12 +68,9 @@ export class UserComponent implements OnInit {
   }
 
   editUser(user: { id: number; name: string; email: string }): void {
-    this.editingUser = user;
-    this.userForm.patchValue({
-      Name: user.name,
-      EmailId: user.email,
-    });
+    this.router.navigate(['/edit-user', user.id], { state: { data: user } });
   }
+  
 
   deleteUser(id: number): void {
     if (confirm('Are you sure you want to delete this user?')) {

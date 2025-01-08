@@ -11,7 +11,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
    // Fetch all users
-   getUsers(): Observable<any[]> {
+  getUsers(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
@@ -24,7 +24,6 @@ export class UserService {
   editUser(id: number, user: { name: string; email: string }): Observable<any> {
     return this.http.put<any>(`${this.apiUrl}/${id}`, user);
 }
-
 
   // Delete a user
   deleteUser(id: number): Observable<any> {
